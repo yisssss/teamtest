@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Modal</title>
+    <style>
+      #modal.modal-overlay {
+        position: relative;
+        display: none;
+        flex-direction: column;
+        align-items: left;
+      }
+      #modal .modal-window {
+        background: blue;
+        border-radius: 20px;
+        width: 200px;
+        height: 200px;
+        position: relative;
+        padding: 10px;
+      }
+      #modal .title {
+        padding-left: 10px;
+        display: inline;
+        color: white;
+      }
+      #modal .title h2 {
+        display: inline;
+      }
+      #modal .close-area {
+        display: inline;
+        float: right;
+        padding-right: 10px;
+        cursor: pointer;
+        color: white;
+      }
+
+      #modal .content {
+        margin-top: 20px;
+        padding: 0px 10px;
+        color: white;
+      }
+
+      .date-num {
+        width: 40px;
+        height: 20px;
+        background-color: blue;
+        color: white;
+        padding: 1em;
+        border-radius: 20px;
+      }
+
+      #date {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        gap: 0.5em;
+      }
+
+      .container {
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div id="date">
+        <div class="date-num">date1</div>
+        <div class="date-num">date2</div>
+        <div class="date-num">date3</div>
+        <div class="date-num">date4</div>
+        <div class="date-num">date5</div>
+        <div class="date-num">date6</div>
+        <div class="date-num">date7</div>
+      </div>
+
+      <div id="modal" class="modal-overlay">
+        <div class="modal-window">
+          <div class="title">
+            <h2>모달</h2>
+          </div>
+          <div class="close-area">X</div>
+          <div class="content">1. 첫번쨰 공지사항</div>
+          <div class="content">2. 두번째 공지사항</div>
+        </div>
+      </div>
+    </div>
+    <script>
+      const modal = document.getElementById("modal");
+
+      function modalOn() {
+        modal.style.display = "flex";
+      }
+      function isModalOn() {
+        return modal.style.display === "flex";
+      }
+      function modalOff() {
+        modal.style.display = "none";
+      }
+
+      const dateItems = document.querySelectorAll(".date-num");
+      dateItems.forEach((dateItem) => {
+        dateItem.addEventListener("click", (e) => {
+          const clickedDate = e.target;
+          const modalWindow = modal.querySelector(".modal-window");
+
+          // 클릭한 date 요소의 위치 계산
+          const dateRect = clickedDate.getBoundingClientRect();
+          const dateTop = dateRect.top + window.scrollY;
+          const dateLeft = dateRect.left + window.scrollX;
+
+          // 모달 위치 조정
+          modalWindow.style.top = `${dateTop}px`;
+          modalWindow.style.left = `${dateLeft - 8}px`;
+
+          modalOn();
+        });
+      });
+
+      const openModal = document.getElementById("date");
+      openModal.addEventListener("click", (e) => {
+        modalOn();
+      });
+
+      const closeBtn = modal.querySelector(".close-area");
+      closeBtn.addEventListener("click", (e) => {
+        modalOff();
+      });
+    </script>
+  </body>
+</html>
